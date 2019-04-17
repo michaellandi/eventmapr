@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EventMapr.Models;
+using System.Collections.Generic;
 
 namespace EventMapr.Configuration
 {
@@ -6,8 +7,6 @@ namespace EventMapr.Configuration
     {
         public Dictionary<string, object> Map { get; set; }
         public Dictionary<string, object> Types { get; set; }
-        public Dictionary<string, object>[] Sites { get; set; }
+        public Site[] Sites { get; set; }
     }
-
-
 }

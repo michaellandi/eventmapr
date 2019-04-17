@@ -31,7 +31,7 @@
 
           var connection = new signalR.HubConnectionBuilder().withUrl("/mapHub").build();
           connection.on("ReceiveEvent", function (request) {
-              mapr.drawLine([request.latitude, request.longitude], request.siteId, request.typeId);
+              mapr.drawLine([request.longitude, request.latitude], request.siteId, request.typeId);
           });
 
           connection.start();

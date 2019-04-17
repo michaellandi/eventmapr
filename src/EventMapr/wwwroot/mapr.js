@@ -1,6 +1,7 @@
 class Mapr {
     maxOpacity = 0.6;
     defaultLineColor = "white";
+    lineDrawSteps = 80;
 
     constructor(api) {
         this.config = api.getConfiguration();
@@ -9,7 +10,7 @@ class Mapr {
         this.map = new mapboxgl.Map({
             container: this.config.map.divId,
             style: this.config.map.theme,
-            center: [this.config.map.centerLatitude, this.config.map.centerLongitude],
+            center: [this.config.map.centerLongitude, this.config.map.centerLatitude],
             zoom: this.config.map.zoom
         });
 
@@ -17,27 +18,27 @@ class Mapr {
     }
 
     drawLine = function (origin, siteId, typeId) {
+        var id = this.uuidv4();
         var site = this.getSiteFromId(siteId);
         var color = this.getColorFromTypeId(typeId);
 
-        var coordinates = new Array();
-        coordinates.push(origin);
-        coordinates.push([site.longitude, site.latitude]);
+        var geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [ ]
+                }
+            }]
+        };
 
-        var id = this.uuidv4();
         var layer = {
             "id": id,
             "type": "line",
             "source": {
                 "type": "geojson",
-                "data": {
-                    "type": "Feature",
-                    "properties": {},
-                    "geometry": {
-                        "type": "LineString",
-                        "coordinates": coordinates
-                    }
-                }
+                "data": geojson
             },
             "layout": {
                 "line-join": "round",
@@ -46,17 +47,32 @@ class Mapr {
             "paint": {
                 "line-color": color,
                 "line-width": 3,
-                "line-opacity": 0
+                "line-opacity": this.maxOpacity
             }
         };
 
         this.map.addLayer(layer);
+        this.moveLine(this, geojson, id, 0, [site.longitude, site.latitude], origin);
+    }
 
-        var instance = this;
-        this.fadeLineIn(id);
-        setTimeout(function() {
-            instance.fadeLineOut(id);
-        }, this.config.map.lineDuration);
+    moveLine(instance, geojson, id, i, start, end) {
+        if (i > instance.lineDrawSteps) {
+            setTimeout(function () {
+                instance.fadeLineOut(id);
+            }, instance.config.map.lineDuration);
+            return;
+        }
+
+        console.log("moving: " + i);
+        geojson.features[0].geometry.coordinates.push([
+            start[0] * i / instance.lineDrawSteps + end[0] * (instance.lineDrawSteps - i) / instance.lineDrawSteps,
+            start[1] * i / instance.lineDrawSteps + end[1] * (instance.lineDrawSteps - i) / instance.lineDrawSteps]);
+        
+        instance.map.getSource(id).setData(geojson);
+
+        setTimeout(function () {
+            instance.moveLine(instance, geojson, id, ++i, start, end);
+        }, 10);
     }
 
     fadeLineIn(id, opacity = 0.0) {
@@ -88,7 +104,7 @@ class Mapr {
       this.config.sites.forEach(function(site) {
         var el = document.createElement('div');
         el.className = 'marker';
-        el.setAttribute('style', `background-image:url('${site.icon}');height:${site.iconHeight};width:${site.iconWidth}`);
+        el.setAttribute('style', `background-image:url('${instance.config.map.markerIcon}');height:${instance.config.map.markerHeight}px;width:${instance.config.map.markerWidth}px`);
 
         new mapboxgl.Marker(el)
           .setLngLat([site.longitude, site.latitude])

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using EventMapr.Configuration;
+using EventMapr.Hubs;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EventMapr.Configuration;
-using EventMapr.Hubs;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace EventMapr
