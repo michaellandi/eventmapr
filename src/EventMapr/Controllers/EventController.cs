@@ -46,7 +46,7 @@ namespace EventMapr.Controllers
 
                 return new Event
                 {
-                    SiteId = Settings.Sites.GetRandom().Name.ToLowerCamelCase(),
+                    SiteId = random.Next(2) == 0 ? null : Settings.Sites.GetRandom().Name.ToLowerCamelCase(),
                     TypeId = Settings.Types.GetRandom().Key.ToLowerCamelCase(),
                     Latitude = coordinates.Item1,
                     Longitude = coordinates.Item2

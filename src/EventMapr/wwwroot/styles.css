@@ -27,9 +27,40 @@
     }
         
     .legend div span {
-        border-radius: 50%;
+        border-radius: 20%;
         display: inline-block;
-        height: 10px;
-        margin-right: 5px;
-        width: 10px;
+        height: 8px;
+        margin-right: 10px;
+        width: 40px;
     }
+
+.event-marker {
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 50%;
+    animation: fadein 1s;
+}
+
+    .event-marker.pulse {
+        animation: pulse 1s infinite;
+    }
+
+    .event-marker.hide {
+        animation: fadeout 1s;
+    }
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.5; }
+}
+
+@keyframes pulse {
+    0%   { opacity:0.1; }
+    50%  { opacity:0.5; }
+    100% { opacity:0.1; }
+}
+
+@keyframes fadeout {
+    from { opacity: 0.5; }
+    to   { opacity: 0; }
+}

@@ -1,7 +1,7 @@
 class Mapr {
-    maxOpacity = 0.6;
+    maxOpacity = 0.3;
     defaultLineColor = "white";
-    lineDrawSteps = 80;
+    lineDrawSteps = 25;
 
     constructor(api) {
         this.config = api.getConfiguration();
@@ -17,7 +17,42 @@ class Mapr {
         this.map.on('load', this.setMarkers());
     }
 
-    drawLine = function (origin, siteId, typeId) {
+    drawEvent(origin, siteId, typeId)
+    {
+        if (siteId == undefined)
+        {
+            this.drawMarkerEvent(origin, typeId);
+        }
+        else
+        {
+            this.drawLineEvent(origin, siteId, typeId);
+        }
+    }
+
+    drawMarkerEvent = function(origin, typeId)
+    {
+        var color = this.getColorFromTypeId(typeId);
+
+        var el = document.createElement('div');
+        el.classList.add('event-marker');
+        el.classList.add('pulse');
+        el.setAttribute('style', `background-color: ${color};height: ${this.config.map.markerHeight}px;width: ${this.config.map.markerWidth}px`);
+
+        var marker = new mapboxgl.Marker(el)
+          .setLngLat(origin)
+          .addTo(this.map);
+
+        setTimeout(function() {
+            el.classList.add('hide');
+            el.classList.remove('pulse');
+
+            setTimeout(function() {
+                marker.remove();
+            }, 1000);
+        }, this.config.map.markerDuration);
+    }
+
+    drawLineEvent = function (origin, siteId, typeId) {
         var id = this.uuidv4();
         var site = this.getSiteFromId(siteId);
         var color = this.getColorFromTypeId(typeId);
@@ -32,7 +67,7 @@ class Mapr {
                 }
             }]
         };
-
+        debugger;
         var layer = {
             "id": id,
             "type": "line",
@@ -63,7 +98,6 @@ class Mapr {
             return;
         }
 
-        console.log("moving: " + i);
         geojson.features[0].geometry.coordinates.push([
             start[0] * i / instance.lineDrawSteps + end[0] * (instance.lineDrawSteps - i) / instance.lineDrawSteps,
             start[1] * i / instance.lineDrawSteps + end[1] * (instance.lineDrawSteps - i) / instance.lineDrawSteps]);
@@ -104,7 +138,7 @@ class Mapr {
       this.config.sites.forEach(function(site) {
         var el = document.createElement('div');
         el.className = 'marker';
-        el.setAttribute('style', `background-image:url('${instance.config.map.markerIcon}');height:${instance.config.map.markerHeight}px;width:${instance.config.map.markerWidth}px`);
+        el.setAttribute('style', `background-image:url('${instance.config.map.siteIcon}');height:${instance.config.map.siteHeight}px;width:${instance.config.map.siteWidth}px`);
 
         new mapboxgl.Marker(el)
           .setLngLat([site.longitude, site.latitude])
