@@ -9,8 +9,3 @@ EventMapr is a tool for displaying real-time eventing data on a map.  It consits
 
 ![Image of EventMapr](https://github.com/michaellandi/eventmapr/raw/master/docs/map.gif)
 
-
-
-## Contact ##
-
-For any bug reports or feature requests please contact me at mlandi[@]sourcesecure[.]net.
