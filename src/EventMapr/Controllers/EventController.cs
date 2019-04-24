@@ -30,23 +30,24 @@ namespace EventMapr.Controllers
         }
 
         [HttpPost("Demo")]
-        public async Task DemoAsync(int count = 100)
+        public async Task DemoAsync(int count = 100, EventClass? eventClass = null)
         {
             var random = new Random(DateTime.Now.Millisecond);
 
             for (var i = 0; i < count; i++)
             {
                 await PostAsync(GetRandomEvent());
-                await Task.Delay(random.Next(1000));
+                await Task.Delay(random.Next(500));
             }
             
             Event GetRandomEvent()
             {
                 var coordinates = Constants.DEMO_COORDINATES.GetRandom();
+                var @class = eventClass.HasValue ? (int)eventClass : random.Next(2);
 
                 return new Event
                 {
-                    SiteId = random.Next(2) == 0 ? null : Settings.Sites.GetRandom().Name.ToLowerCamelCase(),
+                    SiteId = @class == 1 ? null : Settings.Sites.GetRandom().Name.ToLowerCamelCase(),
                     TypeId = Settings.Types.GetRandom().Key.ToLowerCamelCase(),
                     Latitude = coordinates.Item1,
                     Longitude = coordinates.Item2

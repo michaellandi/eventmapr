@@ -23,6 +23,7 @@ namespace EventMapr
 
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://0.0.0.0:5000")
                 .ConfigureAppConfiguration((config) =>
                 {
                     config.AddJsonFile(configurationFile);
