@@ -42,7 +42,7 @@ Example Map:
 | `GET`  | `/api/configuration` | Returns the current server configuration as JSON |
 
 ## Running from Source
-EventMapr can be run from source using the [dotnet core 2.2 sdk](https://dotnet.microsoft.com/download/dotnet-core/2.2):
+EventMapr can be run from source using the [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0):
 ```
 cd src/EventMapr
 dotnet run
