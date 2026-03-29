@@ -6,7 +6,7 @@ EventMapr is a tool for displaying real-time eventing data on a map.  It consist
 ![Event Map](https://github.com/michaellandi/eventmapr/raw/master/docs/map-all.gif)
 
 ## Event Types
-EventMapr works by pushing events from a back-end API to a front-end map.  EventMapr supports two types of events:
+EventMapr works by pushing events from a back-end API to a front-end map via SignalR.  EventMapr supports two types of events:
  - Line Events: events originating at a geo-point and going to a site (or data center)
  - Marker Events: events originating at a geo-point
 
@@ -33,6 +33,14 @@ curl -XPOST http://localhost:5000/api/event -H "content-type:application/json" -
 Example Map:
 ![Marker Event Map](https://github.com/michaellandi/eventmapr/raw/master/docs/map-marker.gif)
 
+## API Reference
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/event` | Push a single event to the map |
+| `POST` | `/api/event/demo?count=100` | Push a batch of random demo events. `count` controls the number of events (default: 100). Optionally pass `eventClass=0` for line events or `eventClass=1` for marker events. |
+| `GET`  | `/api/configuration` | Returns the current server configuration as JSON |
+
 ## Running from Source
 EventMapr can be run from source using the [dotnet core 2.2 sdk](https://dotnet.microsoft.com/download/dotnet-core/2.2):
 ```
@@ -50,7 +58,7 @@ docker run -d -e EVENTMAPR_CONFIG_PATH=/etc/eventmapr/eventmapr.json -v ~/eventm
 ```
 
 ## Configuration
-Many configuration options are available and can be overridden.  See the default configuration file hosted (here)[https://github.com/michaellandi/eventmapr/blob/master/src/EventMapr/appsettings.json]
+Many configuration options are available and can be overridden.  See the default configuration file hosted [here](https://github.com/michaellandi/eventmapr/blob/master/src/EventMapr/appsettings.json).
 
 *NOTE*: You will need to replace the `ApiKey` setting with your API key from Mapbox.
 ```
@@ -106,4 +114,4 @@ Many configuration options are available and can be overridden.  See the default
 
 EventMapr uses [Mapbox](https://www.mapbox.com/) which is licensed [separately](https://github.com/mapbox/mapbox-gl-js/blob/master/LICENSE.txt)
 
-EventMapr is Copyright © 2019 Michael Landi 
+EventMapr is Copyright © 2019 Michael Landi
