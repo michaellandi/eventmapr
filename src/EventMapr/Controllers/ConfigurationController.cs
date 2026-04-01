@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 using EventMapr.Configuration;
 
 namespace EventMapr.Controllers
@@ -20,9 +19,9 @@ namespace EventMapr.Controllers
         [HttpGet]
         public IActionResult IndexAsync()
         {
-            return Json(Settings, new JsonSerializerSettings
+            return Json(Settings, new JsonSerializerOptions
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
         }
     }

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace EventMapr
@@ -9,24 +9,26 @@ namespace EventMapr
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            // Configuration file location can be overridden from environment variable (if mapping from DOCKER)
             var configurationFile = Environment.GetEnvironmentVariable("EVENTMAPR_CONFIG_PATH");
             if (string.IsNullOrWhiteSpace(configurationFile))
             {
                 configurationFile = "appsettings.json";
             }
 
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:5000")
-                .ConfigureAppConfiguration((config) =>
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    config.AddJsonFile(configurationFile);
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://0.0.0.0:5000");
+                    webBuilder.ConfigureAppConfiguration((context, config) =>
+                    {
+                        config.AddJsonFile(configurationFile);
+                    });
                 });
         }
     }
