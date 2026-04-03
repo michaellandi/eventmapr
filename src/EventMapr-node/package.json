@@ -1,0 +1,22 @@
+{
+  "name": "eventmapr-node",
+  "version": "1.0.0",
+  "description": "EventMapr Node.js backend - Real-time event visualization",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "eventmapr",
+    "websocket",
+    "signalr",
+    "mapbox"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "ws": "^8.14.2"
+  }
+}

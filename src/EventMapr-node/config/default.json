@@ -1,0 +1,40 @@
+{
+  "Map": {
+    "LineDuration": 3000,
+    "MarkerDuration": 10000,
+    "MarkerHeight": 12,
+    "MarkerWidth": 12,
+    "Theme": "mapbox://styles/mapbox/dark-v10",
+    "DivId": "map",
+    "CenterLatitude": 39.8333333,
+    "CenterLongitude": -98.585522,
+    "Zoom": "3.5",
+    "ApiKey": "{{MAPBOX_API_KEY}}",
+    "LegendTitle": "Event Type",
+    "SiteIcon": "img/marker.png",
+    "SiteHeight": 40,
+    "SiteWidth": 20
+  },
+  "Types": {
+    "Event1": "#13B2A6",
+    "Event2": "#A67657",
+    "Event3": "#CEE4AC"
+  },
+  "Sites": [
+    {
+      "Name": "ny",
+      "Latitude": 40.7167,
+      "Longitude": -74
+    },
+    {
+      "Name": "ch",
+      "Latitude": 41.881832,
+      "Longitude": -87.623177
+    },
+    {
+      "Name": "sf",
+      "Latitude": 37.774929,
+      "Longitude": -122.419416
+    }
+  ]
+}
